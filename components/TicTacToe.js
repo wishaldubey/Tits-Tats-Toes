@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
@@ -6,6 +5,7 @@ import { db } from "../lib/firebase";
 const TicTacToe = ({ game, gameId, player }) => {
   const [currentGame, setCurrentGame] = useState(game);
   const [mySymbol, setMySymbol] = useState("");
+  const [flashMessage, setFlashMessage] = useState(""); // State for flash message
 
   useEffect(() => {
     setCurrentGame(game);
@@ -16,7 +16,8 @@ const TicTacToe = ({ game, gameId, player }) => {
     if (!currentGame || currentGame.board[index] || currentGame.winner) return;
 
     if (currentGame.currentPlayer !== player) {
-      alert("It's not your turn!");
+      setFlashMessage("It's not your turn!"); // Set flash message
+      setTimeout(() => setFlashMessage(""), 600); // Clear message after 3 seconds
       return;
     }
 
@@ -42,11 +43,10 @@ const TicTacToe = ({ game, gameId, player }) => {
   };
 
   const handlePlayAgain = async () => {
-    // Reset the game state in Firestore
     await updateDoc(doc(db, "games", gameId), {
-      board: Array(9).fill(null), // Empty board
-      currentPlayer: "X", // Start with player X
-      winner: null, // No winner
+      board: Array(9).fill(null),
+      currentPlayer: "X",
+      winner: null,
     });
   };
 
@@ -64,7 +64,6 @@ const TicTacToe = ({ game, gameId, player }) => {
     }
     return null;
   };
-  
 
   const checkDraw = (board) => {
     return board.every((square) => square !== null);
@@ -85,17 +84,22 @@ const TicTacToe = ({ game, gameId, player }) => {
   };
 
   return (
-    <div className="flex flex-col  p-6 space-y-6  min-h-screen">
+    <div className="flex flex-col p-6 space-y-6 min-h-screen">
       <h2 className="text-4xl font-semibold text-purple-500">
         {currentGame.winner ? `Winner: ${currentGame.winner}` : `Player ${currentGame.currentPlayer}'s Turn`}
       </h2>
+      {flashMessage && ( // Conditional rendering of the flash message
+        <div className="bg-red-500 text-white p-2 rounded-lg mb-4">
+          {flashMessage}
+        </div>
+      )}
       <div className="grid grid-cols-3 gap-6 md:gap-6">
         {[...Array(9)].map((_, index) => renderSquare(index))}
       </div>
       {currentGame.winner && (
         <button
           className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg text-xl font-medium shadow-lg hover:bg-blue-700 transition-colors"
-          onClick={handlePlayAgain} // Trigger the Firestore reset
+          onClick={handlePlayAgain}
         >
           Play Again
         </button>
