@@ -73,7 +73,7 @@ const TicTacToe = ({ game, gameId, player }) => {
     const isWinningSquare = currentGame.winner?.includes(index);
     return (
       <button
-        className={`square w-24 h-24 md:w-30 md:h-30 flex items-center justify-center text-4xl font-bold border-4 rounded-lg shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 ${
+        className={`square w-22 h-22 md:w-30 md:h-30 flex items-center justify-center text-4xl font-bold border-4 rounded-lg shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 ${
           isWinningSquare ? "bg-green-300" : "bg-gray-200"
         } ${currentGame.board[index] === "X" ? "text-blue-600" : "text-red-600"}`}
         onClick={() => handleMove(index)}
@@ -88,7 +88,7 @@ const TicTacToe = ({ game, gameId, player }) => {
       <h2 className="text-4xl font-semibold text-gray-800">
         {currentGame.winner ? `Winner: ${currentGame.winner}` : `Player ${currentGame.currentPlayer}'s Turn`}
       </h2>
-      <div className="grid grid-cols-3 gap-6 md:gap-6">
+      <div className="grid grid-cols-3 gap-4 md:gap-6">
         {[...Array(9)].map((_, index) => renderSquare(index))}
       </div>
       {currentGame.winner && (
