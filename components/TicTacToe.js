@@ -73,7 +73,7 @@ const TicTacToe = ({ game, gameId, player }) => {
     const isWinningSquare = currentGame.winner?.includes(index);
     return (
       <button
-        className={`square w-22 h-22 md:w-30 md:h-30 flex items-center justify-center text-4xl font-bold border-4 rounded-lg shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 ${
+        className={`square w-20 h-20 md:w-30 md:h-30 flex items-center justify-center text-4xl font-bold border-4 rounded-lg shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 ${
           isWinningSquare ? "bg-green-300" : "bg-gray-200"
         } ${currentGame.board[index] === "X" ? "text-blue-600" : "text-red-600"}`}
         onClick={() => handleMove(index)}
