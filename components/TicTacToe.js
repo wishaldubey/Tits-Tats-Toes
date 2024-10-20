@@ -88,7 +88,7 @@ const TicTacToe = ({ game, gameId, player }) => {
       <h2 className="text-4xl font-semibold text-gray-800">
         {currentGame.winner ? `Winner: ${currentGame.winner}` : `Player ${currentGame.currentPlayer}'s Turn`}
       </h2>
-      <div className="grid grid-cols-3 gap-4 md:gap-6">
+      <div className="grid grid-cols-3 gap-6 md:gap-6">
         {[...Array(9)].map((_, index) => renderSquare(index))}
       </div>
       {currentGame.winner && (
